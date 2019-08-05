@@ -1,0 +1,13 @@
+<view class="record">
+    <scroll-view scroll-y="{{true}}" class="scroll-container">
+        <view class="item" wx:for="{{list}}" wx:key="{{item.Score}}">
+            <view class="left">
+                <image wx:if="{{index<3}}" class="rank-img" src="{{'../../../images/medal-rank-0'+(index+1)+'.png'}}"></image>
+                <text wx:if="{{index>2}}" class="rank-text">{{index<9?'0'+(index+1):index+1}}</text>
+                <text class="score">{{item.Score}}</text>
+                <image class="pro-img" src="{{url+''+item.Image}}"></image>
+            </view>
+            <text class="pro-name">{{item.Name}}</text>
+        </view>
+    </scroll-view>
+</view>
