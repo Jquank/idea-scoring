@@ -1,0 +1,51 @@
+<view class="scoring-wrapper">
+    <view class="scoring">
+        <view class="project-intro">
+            <text class="intro">项目介绍：</text>
+            <view class="intro-content">
+                <text>{{'题目：'+proInfo.Name}}</text>
+            </view>
+            <view class="intro-content">{{'内容：'+proInfo.Descript}}</view>
+            <view class="intro-content">
+                <text>{{'作者：'+proInfo.Author}}</text>
+            </view>
+        </view>
+        <view wx:if="{{majorScore}}" class="content">
+            <text class="title">
+                <text>系统实现（</text>
+                <text class="active-num">{{complete}}</text>
+                <text>/50）:</text>
+            </text>
+            <slider max="50" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="complete"></slider>
+            <!-- <view class="form">
+                <input maxlength="2" type="number" value="{{complete}}"></input>
+            </view> -->
+            <text class="title">
+                <text>用户体验（</text>
+                <text class="active-num">{{experience}}</text>
+                <text>/20）:</text>
+            </text>
+            <slider max="20" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="experience"></slider>
+            <!-- <view class="form">
+                <input maxlength="2" type="number" value="{{experience}}"></input>
+            </view> -->
+            <text class="title">
+                <text>系统展示（</text>
+                <text class="active-num">{{systemShow}}</text>
+                <text>/30）:</text>
+            </text>
+            <slider max="30" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="systemShow"></slider>
+            <!-- <view class="form">
+                <input maxlength="2" type="number" value="{{systemShow}}"></input>
+            </view> -->
+        </view>
+        <view wx:if="{{majorScore}}" class="sub-btn">
+            <text class="time-down">{{endTime}}</text>
+            <button bindtap="submitScore" type="primary" disabled="{{!canVote}}">提交评分</button>
+        </view>
+        <view wx:if="{{!majorScore}}" class="content1">
+            <text class="time-down">{{endTime}}</text>
+            <button bindtap="vote" type="primary" disabled="{{!canVote}}">给TA投票</button>
+        </view>
+    </view>
+</view>

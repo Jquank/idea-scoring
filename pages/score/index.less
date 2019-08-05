@@ -1,0 +1,79 @@
+@bg-color: rgba(25, 41, 75, 1);
+.box-border {
+    box-sizing: border-box;
+    border: 6rpx solid #45536e;
+    border-radius: 16rpx;
+    box-shadow: 0 6rpx 0 #0b162e;
+}
+.scoring-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    background: #e9eef1;
+}
+.scoring {
+    width: 670rpx;
+    margin: 0 auto;
+    padding-top: 20rpx;
+    color: #fff;
+
+    .project-intro {
+        background: @bg-color;
+        .box-border;
+        padding: 20rpx;
+        .intro {
+            display: block;
+            text-align: center;
+            line-height: 50rpx;
+            font-weight: bold;
+            font-size: 32rpx;
+            word-break: break-all;
+        }
+        .intro-content {
+            display: block;
+            width: 100%;
+            font-size: 28rpx;
+            line-height: 38rpx;
+            word-break: break-all;
+        }
+    }
+    .content {
+        background: #fff;
+        margin: 40rpx 0;
+        padding: 20rpx 10rpx;
+        color: #000;
+        border-radius: 16rpx;
+        .title {
+            display: block;
+            margin: 16rpx 0 8rpx;
+        }
+        .active-num {
+            font-weight: bold;
+            color: #0b162e;
+        }
+        .form {
+            width: 100%;
+            height: 88rpx;
+            padding: 0 20rpx;
+            .box-border;
+            background: @bg-color;
+            input {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .sub-btn {
+            margin-top: 60rpx;
+        }
+    }
+    .content1 {
+        margin-top: 60rpx;
+        text-align: center;
+    }
+    .time-down {
+        display: block;
+        margin-bottom: 30rpx;
+        width: 100%;
+        text-align: center;
+        color: #0b162e;
+    }
+}

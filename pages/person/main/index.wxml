@@ -1,0 +1,33 @@
+<view class="person">
+    <view class="canvas-wrapper" style="position:fixed;top:9999px;">
+        <canvas canvas-id="canvas" style="width:355px;height:500px;"></canvas>
+    </view>
+    <view class="avatar-wrapper">
+        <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+        <text class="name">{{userInfo.nickName}}</text>
+        <!-- <text class="score-count">{{'共参与'+'2'+'次评分'}}</text> -->
+    </view>
+    <view class="feature-wrapper">
+        <view class="item" bindtap="viewRecord">
+            <view class="left">
+                <image class="icon" src="../../../images/score-record.png"></image>
+                <text class="text">排名统计</text>
+            </view>
+            <view class="arrow">></view>
+        </view>
+        <!-- <view class="item" bindtap="createImg">
+            <view class="left">
+                <image class="icon" src="../../../images/haibao.png"></image>
+                <text class="text">生成海报</text>
+            </view>
+            <view class="arrow">></view>
+        </view> -->
+        <button class="item" open-type="share" plain="{{true}}" size="mini">
+            <view class="left">
+                <image class="icon" src="../../../images/share.png"></image>
+                <text class="text">分享给好友</text>
+            </view>
+            <view class="arrow">></view>
+        </button>
+    </view>
+</view>

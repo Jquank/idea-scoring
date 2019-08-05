@@ -1,0 +1,6 @@
+{
+    "less.compile": {
+        "compress": true, // true => remove surplus whitespace
+        "out": "./", // false => DON'T output .wxss files (overridable per-file, see below)
+    },
+}

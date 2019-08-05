@@ -1,0 +1,64 @@
+<!-- index.wxml -->
+<view class="home">
+    <view wx:if="{{!hasUserInfo}}" class="auth">
+        <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">点击授权</button>
+    </view>
+    <block wx:if="{{hasUserInfo}}">
+        <block wx:if="{{!adminAuth}}">
+            <view class="score-rule">
+                <text class="r-title">评分规则</text>
+                <text class="title">系统实现(50):</text>
+                <text class="r-text">1、代码结构清晰、编写规范，按照系统设计需求实现功能模块（15）</text>
+                <text class="r-text">2、数据内容丰富，数据制作规范，显示美观，满足应用系统需求（15）</text>
+                <text class="r-text">3、打包完整，安装/部署便捷，系统稳定、高效，无严重系统错误（20）</text>
+                <text class="title">用户体验(20):</text>
+                <text class="r-text">1、界面友好，菜单设计、设计合理，操作简便，符合用户使用习惯，达到地图和系统界面美观协调（10）</text>
+                <text class="r-text">2、功能性能好，无明显卡顿现象（10）</text>
+                <text class="title">系统展示(30):</text>
+                <text class="r-text">1、文档资料齐全规范，文档描述清晰，图表简明，能够说明系统功能实现思路和过程（20）</text>
+                <text class="r-text">
+                    2、录像时长10-20分钟，应突出展示作品的精彩功能和设计亮点，能够展示操作步骤；同时可配以语音讲解和PPT展示说明（10）
+                </text>
+            </view>
+            <view class="wait-enter">
+                <button type="{{isStart?'primary':'warn'}}" disabled="{{!isStart}}" bindtap="handleClickStart">
+                    {{isStart?scoreStatus.active:scoreStatus.wait}}
+                </button>
+            </view>
+        </block>
+        <block wx:if="{{adminAuth}}">
+            <block wx:if="{{showList}}">
+                <scroll-view scroll-y="{{true}}" class="pro-list">
+                    <radio-group bindchange="radioChange">
+                        <label class="content" wx:for="{{proList}}" wx:key="{{index}}">
+                            <radio value="{{item.Oid}}" disabled="{{item.JoinMessage==='投票已结束' || item.JoinMessage==='投票已开始'}}" />
+                            <view class="left">
+                                <text class="a">{{index<9?'0'+(index+1):index+1}}</text>
+                                <image class="img" src="{{url+''+item.Image}}"></image>
+                            </view>
+                            <text class="score">{{item.Score || ''}}</text>
+                            <text class="name">{{item.Name}}</text>
+                        </label>
+                    </radio-group>
+                </scroll-view>
+                <view class="sel-btn">
+                    <button bindtap="calcScore" type="primary" size="mini">统计得分</button>
+                    <button bindtap="confirmSelPro" type="warn" size="mini">开始评分</button>
+                </view>
+            </block>
+            <block wx:else>
+                <view class="count-down">
+                    <canvas canvas-id="canvas" style="width:400rpx;height:400rpx"></canvas>
+                </view>
+                <view class="start-score">
+                    <button disabled="{{startBtn}}" bindtap="adminStart" type="primary">
+                        点击发起评分
+                    </button>
+                </view>
+                <!-- <view class="close-score">
+                    <button disabled="{{closeBtn}}" bindtap="adminEnd" type="warn">点击关闭评分</button>
+                </view> -->
+            </block>
+        </block>
+    </block>
+</view>

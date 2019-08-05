@@ -1,0 +1,35 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/logs/logs",
+        "pages/score/index",
+        "pages/person/main/index",
+        "pages/person/record/index"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#0285f9",
+        "navigationBarTitleText": "评分",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "color": "#000000",
+        "selectedColor": "#e4393c",
+        "backgroundColor": "#ffffff",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "评委进入",
+                "iconPath": "./images/score.png",
+                "selectedIconPath": "./images/score.png"
+            },
+            {
+                "pagePath": "pages/person/main/index",
+                "text": "个人中心",
+                "iconPath": "./images/user-center.png",
+                "selectedIconPath": "./images/user-center.png"
+            }
+        ]
+    },
+    "sitemapLocation": "sitemap.json"
+}
