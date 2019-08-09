@@ -8,9 +8,17 @@ Page({
     data: {
         majorScore: true,
         projectScore: false,
-        complete: 0,
-        experience: 0,
-        systemShow: 0,
+        p1: 0,
+        p2: 0,
+        p3: 0,
+        p4: 0,
+        p5: 0,
+        p6: 0,
+        p7: 0,
+        p8: 0,
+        p9: 0,
+        p10: 0,
+        p11: 0,
         canVote: true,
         proInfo: {},
         endTime: '',
@@ -46,42 +54,62 @@ Page({
         var str = '剩余：' + this.tow(minute) + '分' + this.tow(second) + '秒'
         return str
     },
+    getMyticketList() {
+        get('api/WxOpen/GetMytickList', { peojectoid: app.globalData.proId }).then(res => {
+            if (res.flag) {
+                res.msg.forEach(val => {
+                    this.setData({
+                        ['p' + [val.PointType]]: val.Point
+                    })
+                })
+                console.log(this.data)
+            }
+        })
+    },
     submitScore: function() {
-        var allPoints = this.data.complete + this.data.experience + this.data.systemShow
+        var that = this
+        var params = []
+        for (let i = 1; i < 12; i++) {
+            params.push({
+                Point: that.data['p' + [i]],
+                Pointtype: i
+            })
+        }
         wx.showModal({
             title: '确认提交此次评分？',
             success(res) {
                 if (res.confirm) {
-                    post('api/WxOpen/PostProjectCast', { Point: allPoints, ProjiectOid: app.globalData.proId }).then(
-                        res => {
-                            console.log(res)
-                            if (res.flag) {
-                                wx.showToast({
-                                    title: '打分成功',
-                                    icon: 'success',
-                                    duration: 2000,
-                                    mast: true
+                    post('api/WxOpen/PostProjectCast', {
+                        ProjiectOid: app.globalData.proId,
+                        PointDetails: params
+                    }).then(res => {
+                        console.log(res)
+                        if (res.flag) {
+                            wx.showToast({
+                                title: '打分成功',
+                                icon: 'success',
+                                duration: 2000,
+                                mast: true
+                            })
+                            setTimeout(() => {
+                                wx.reLaunch({
+                                    url: '/pages/index/index'
                                 })
-                                setTimeout(() => {
-                                    wx.reLaunch({
-                                        url: '/pages/index/index'
-                                    })
-                                }, 2000)
-                            } else {
-                                wx.showToast({
-                                    title: res.msg,
-                                    icon: 'none',
-                                    duration: 2000,
-                                    mast: true
+                            }, 2000)
+                        } else {
+                            wx.showToast({
+                                title: res.msg,
+                                icon: 'none',
+                                duration: 2000,
+                                mast: true
+                            })
+                            setTimeout(() => {
+                                wx.reLaunch({
+                                    url: '/pages/index/index'
                                 })
-                                setTimeout(() => {
-                                    wx.reLaunch({
-                                        url: '/pages/index/index'
-                                    })
-                                }, 2000)
-                            }
+                            }, 2000)
                         }
-                    )
+                    })
                 } else if (res.cancel) {
                     console.log('用户点击取消')
                 }
@@ -93,9 +121,11 @@ Page({
             [e.currentTarget.dataset.mark]: e.detail.value
         })
     },
+    // change1(e) {
+    //     console.log(e.detail.value)
+    // },
     getProjiectDetail() {
         get('api/WxOpen/GetProjectDetail', { peojectoid: app.globalData.proId }).then(res => {
-            // get('api/WxOpen/GetProjectDetail', { peojectoid: 9 }).then(res => {
             if (res.flag) {
                 this.data.timer = setInterval(() => {
                     var str = this.getDate(res.msg.EndTime.replace(/-/g, '/'))
@@ -111,7 +141,14 @@ Page({
     },
     // 给TA投票
     vote() {
-        post('api/WxOpen/PostProjectCast', { Point: 1, ProjiectOid: app.globalData.proId }).then(res => {
+        var params = []
+        for (let i = 1; i < 12; i++) {
+            params.push({
+                Point: 0,
+                Pointtype: i
+            })
+        }
+        post('api/WxOpen/PostProjectCast', { ProjiectOid: app.globalData.proId, PointDetails: params }).then(res => {
             if (res.flag) {
                 wx.showToast({
                     title: '投票成功',
@@ -144,8 +181,10 @@ Page({
      */
     onLoad: function(options) {
         this.getProjiectDetail()
+        this.getMyticketList()
         this.setData({
-            majorScore: app.globalData.userInfo.voterole === 2 || app.globalData.userInfo.voterole === 1
+            majorScore: app.globalData.userInfo.voterole === 2,
+            projectScore: app.globalData.userInfo.voterole === 1
         })
     },
 
@@ -157,7 +196,20 @@ Page({
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {},
+    onShow: function() {
+        // wx.onSocketMessage(res => {
+        //     console.log(res.data)
+        //     var d = res.data
+        //     var index1 = d.search(/群发消息：{/) + 5
+        //     var index2 = d.search(/,当前时间/)
+        //     var val = JSON.parse(d.slice(index1, index2))
+        //     if (val.msg === '结束评分') {
+        //         wx.navigateTo({
+        //             url: '/pages/index/index'
+        //         })
+        //     }
+        // })
+    },
 
     /**
      * 生命周期函数--监听页面隐藏

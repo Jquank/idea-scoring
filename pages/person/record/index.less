@@ -15,15 +15,17 @@
         margin-bottom: 10rpx;
     }
     .item {
-        display: flex;
-        align-items: center;
-        height: 160rpx;
+        height: 192rpx;
         box-sizing: border-box;
         background: #eef1ff;
         border-radius: 6px;
         box-shadow: 0 3px 0 #074d8b;
         margin-top: 20rpx;
-        padding: 0 16rpx;
+        padding: 16rpx;
+        .item-wrapper {
+            display: flex;
+            align-items: center;
+        }
         .left {
             display: flex;
             align-items: center;
@@ -33,14 +35,14 @@
                 margin-top: 10rpx;
             }
             .rank-text {
-                display: block;
                 width: 80rpx;
                 height: 80rpx;
-                text-align: center;
                 font-size: 32rpx;
                 font-weight: bold;
-                line-height: 80rpx;
                 color: #f08287;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
             .score {
                 color: #e4393c;
@@ -56,5 +58,10 @@
         .pro-name {
             margin-left: 20rpx;
         }
+    }
+    .item-footer {
+        padding: 16rpx 10rpx;
+        display: flex;
+        justify-content: space-around;
     }
 }

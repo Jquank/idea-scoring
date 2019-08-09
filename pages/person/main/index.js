@@ -124,5 +124,11 @@ Page({
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function() {}
+    onShareAppMessage: function(options) {
+        var shareObj = {
+            title: '开发大赛评分',
+            path: '/pages/index/index'
+        }
+        return shareObj
+    }
 })

@@ -55,9 +55,9 @@
                         点击发起评分
                     </button>
                 </view>
-                <!-- <view class="close-score">
+                <view class="close-score">
                     <button disabled="{{closeBtn}}" bindtap="adminEnd" type="warn">点击关闭评分</button>
-                </view> -->
+                </view>
             </block>
         </block>
     </block>

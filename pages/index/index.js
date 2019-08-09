@@ -6,7 +6,7 @@ const app = getApp()
 Page({
     data: {
         url: config.api_url,
-        time: 120,
+        time: 900,
         timer: null,
         isStart: false,
         adminAuth: false,
@@ -72,9 +72,9 @@ Page({
                         success(res) {
                             if (res.confirm) {
                                 _this.getProList()
+                                this.getTicketTime()
                                 ctx.clearRect(-_this.rpx(100), -_this.rpx(100), _this.rpx(200), _this.rpx(200))
                                 _this.setData({
-                                    time: 120,
                                     showList: true,
                                     startBtn: false
                                 })
@@ -107,11 +107,10 @@ Page({
     // 管理员点击开始评分
     adminStart() {
         if (app.globalData.wsConn) {
-            post('api/WxOpen/PostStar', { ProjiectOid: this.data.proId, Minutes: 2 }).then(res => {
+            post('api/WxOpen/PostStar', { ProjiectOid: this.data.proId, Minutes: 15 }).then(res => {
                 if (res.flag) {
                     this.setData({
-                        startBtn: true,
-                        time: 120
+                        startBtn: true
                     })
                     var msg = {
                         msg: '开始评分',
@@ -139,9 +138,42 @@ Page({
         }
     },
     adminEnd() {
-        this.data.time = 120
-        clearInterval(this.data.timer)
-        this.initDraw(false)
+        var that = this
+        wx.showModal({
+            title: '确定结束此项目评分',
+            success(res) {
+                if (res.confirm) {
+                    get('api/WxOpen/GetEndStar', { peojectoid: that.data.proId }).then(res => {
+                        if (res.flag) {
+                            this.getTicketTime()
+                            clearInterval(that.data.timer)
+                            that.initDraw(false)
+                            wx.showToast({
+                                title: '已结束',
+                                icon: 'none',
+                                duration: 2000,
+                                mast: true
+                            })
+                            var msg = {
+                                msg: '结束评分'
+                            }
+                            var d = JSON.stringify(msg)
+                            wx.sendSocketMessage({
+                                data: d
+                            })
+                            setTimeout(() => {
+                                that.getProList()
+                                that.setData({
+                                    showList: true
+                                })
+                            }, 1000)
+                        }
+                    })
+                } else if (res.cancel) {
+                    console.log('用户点击取消')
+                }
+            }
+        })
     },
     // 获取项目列表
     getProList() {
@@ -154,6 +186,16 @@ Page({
             if (res.flag) {
                 this.setData({
                     proList: res.msg
+                })
+            }
+        })
+    },
+    // 获取投票时间
+    getTicketTime() {
+        get('api/WxOpen/GetTime').then(res => {
+            if (res.flag) {
+                this.setData({
+                    time: Number(res.msg.Value) * 60
                 })
             }
         })
@@ -202,6 +244,7 @@ Page({
         })
     },
     onLoad: function() {
+        this.getTicketTime()
         wx.getSystemInfo({
             success: res => {
                 app.globalData.windowWidth = res.windowWidth
@@ -231,6 +274,7 @@ Page({
         this.initDraw()
     },
     onShow: function() {
+        this.getDoingProject()
         wx.onSocketMessage(res => {
             console.log(res.data)
             var d = res.data
@@ -254,8 +298,12 @@ Page({
                 console.log(res)
                 wx.setStorageSync('Token', res.msg)
                 this.getDoingProject()
+                if (app.globalData.wsConn) {
+                    wx.closeSocket({
+                        resson: '连接之前，关闭socket'
+                    })
+                }
                 wx.connectSocket({
-                    // url: `ws://192.168.1.30:8080/HandlerSocket.ashx?userKey=${res.msg}`
                     url: `wss://pingfen.cxmx90.com/HandlerSocket.ashx?userKey=${res.msg}`
                 })
                 get('api/WxOpen/GetUserinf').then(res => {
@@ -271,8 +319,8 @@ Page({
                                 console.log(33333333)
                                 console.log(res)
                                 get('api/WxOpen/GetUserinf').then(res => {
+                                    console.log(res)
                                     app.globalData.userInfo = Object.assign({}, obj, res.msg)
-                                    console.log(app.globalData.userInfo)
                                     this.setData({
                                         userInfo: app.globalData.userInfo,
                                         adminAuth: app.globalData.userInfo.voterole === 3,
@@ -283,7 +331,6 @@ Page({
                             .catch(err => {
                                 get('api/WxOpen/GetUserinf').then(res => {
                                     app.globalData.userInfo = Object.assign({}, obj, res.msg)
-                                    console.log(app.globalData.userInfo)
                                     this.setData({
                                         userInfo: app.globalData.userInfo,
                                         adminAuth: app.globalData.userInfo.voterole === 3,

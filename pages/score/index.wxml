@@ -12,38 +12,79 @@
         </view>
         <view wx:if="{{majorScore}}" class="content">
             <text class="title">
-                <text>系统实现（</text>
-                <text class="active-num">{{complete}}</text>
-                <text>/50）:</text>
+                <text>代码结构清晰、编写规范（</text>
+                <text class="active-num">{{p5}}</text>
+                <text>/10）:</text>
             </text>
-            <slider max="50" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="complete"></slider>
-            <!-- <view class="form">
-                <input maxlength="2" type="number" value="{{complete}}"></input>
-            </view> -->
+            <slider value="{{p5}}" max="10" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="p5"></slider>
             <text class="title">
-                <text>用户体验（</text>
-                <text class="active-num">{{experience}}</text>
-                <text>/20）:</text>
+                <text>数据内容丰富、显示美观（</text>
+                <text class="active-num">{{p6}}</text>
+                <text>/10）:</text>
             </text>
-            <slider max="20" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="experience"></slider>
-            <!-- <view class="form">
-                <input maxlength="2" type="number" value="{{experience}}"></input>
-            </view> -->
+            <slider value="{{p6}}" max="10" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="p6"></slider>
             <text class="title">
-                <text>系统展示（</text>
-                <text class="active-num">{{systemShow}}</text>
-                <text>/30）:</text>
+                <text>打包完整、安装部署便捷，系统稳定、高效（</text>
+                <text class="active-num">{{p7}}</text>
+                <text>/10）:</text>
             </text>
-            <slider max="30" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="systemShow"></slider>
-            <!-- <view class="form">
-                <input maxlength="2" type="number" value="{{systemShow}}"></input>
-            </view> -->
+            <slider value="{{p7}}" max="10" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="p7"></slider>
+            <text class="title">
+                <text>作品创新点（</text>
+                <text class="active-num">{{p8}}</text>
+                <text>/10）:</text>
+            </text>
+            <slider value="{{p8}}" max="10" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="p8"></slider>
+            <text class="title">
+                <text>对产品或平台的价值（</text>
+                <text class="active-num">{{p9}}</text>
+                <text>/10）:</text>
+            </text>
+            <slider value="{{p9}}" max="10" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="p9"></slider>
+            <text class="title">
+                <text>文档规范、描述清晰，图表简明（</text>
+                <text class="active-num">{{p10}}</text>
+                <text>/10）:</text>
+            </text>
+            <slider value="{{p10}}" max="10" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="p10"></slider>
+            <text class="title">
+                <text>录像突出精彩功能和设计亮点，展示操作步骤（</text>
+                <text class="active-num">{{p11}}</text>
+                <text>/10）:</text>
+            </text>
+            <slider value="{{p11}}" max="10" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="p11"></slider>
         </view>
-        <view wx:if="{{majorScore}}" class="sub-btn">
+        <view wx:if="{{projectScore}}" class="content">
+            <text class="title">
+                <text>作品完成度（</text>
+                <text class="active-num">{{p1}}</text>
+                <text>/10）:</text>
+            </text>
+            <slider value="{{p1}}" max="10" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="p1"></slider>
+            <text class="title">
+                <text>作品创新点（</text>
+                <text class="active-num">{{p2}}</text>
+                <text>/10）:</text>
+            </text>
+            <slider value="{{p2}}" max="10" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="p2"></slider>
+            <text class="title">
+                <text>对产品或评价的价值（</text>
+                <text class="active-num">{{p3}}</text>
+                <text>/10）:</text>
+            </text>
+            <slider value="{{p3}}" max="10" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="p3"></slider>
+            <text class="title">
+                <text>讲解PPT内容逻辑清晰，讲解流畅清楚，讲述开发过程、系统实现以及作品亮点（</text>
+                <text class="active-num">{{p4}}</text>
+                <text>/10）:</text>
+            </text>
+            <slider value="{{p4}}" max="10" block-color="#0b162e" activeColor="#0b162e" block-size="22" bindchanging="change" bindchange="change" data-mark="p4"></slider>
+        </view>
+        <view wx:if="{{majorScore || projectScore}}" class="sub-btn">
             <text class="time-down">{{endTime}}</text>
             <button bindtap="submitScore" type="primary" disabled="{{!canVote}}">提交评分</button>
         </view>
-        <view wx:if="{{!majorScore}}" class="content1">
+        <view wx:if="{{!majorScore&&!projectScore}}" class="content1">
             <text class="time-down">{{endTime}}</text>
             <button bindtap="vote" type="primary" disabled="{{!canVote}}">给TA投票</button>
         </view>

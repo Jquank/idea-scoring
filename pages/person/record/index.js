@@ -12,7 +12,7 @@ Page({
     getRecord() {
         get('api/WxOpen/GetProjectAllScore').then(res => {
             if (res.flag) {
-                get('api/WxOpen/GetProjectList', { page: 1, rows: 50, searchtxt: '' }).then(res => {
+                get('api/WxOpen/GetProjectList', { page: 1, rows: 50, searchtxt: '', issocer: true }).then(res => {
                     if (res.flag) {
                         var d = res.msg
                         d.sort((a, b) => b.Score - a.Score)
